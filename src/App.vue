@@ -1,25 +1,18 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import * as Plot from "@observablehq/plot";
+import PlotFigure from "./components/PlotFigure.js";
+import voo from "./assets/voo.json";
+import qqqm from "./assets/qqqm.json";
 </script>
 
 <template>
-  <div class="w-full mx-auto flex justify-center">
-    <h1>Stock Performance Tracker</h1>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <h1>Plot + Vue</h1>
+  <PlotFigure
+      :options="{
+      marks: [
+        Plot.line(voo, {x: 'date', y: 'close', transform: (data, facets) => ({data: data.map((x) => ({...x, date: new Date(x.date)})), facets })}),
+        Plot.line(qqqm, {x: 'date', y: 'close', transform: (data, facets) => ({data: data.map((x) => ({...x, date: new Date(x.date)})), facets })}),
+      ],
+    }"
+  />
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
